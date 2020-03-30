@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Post;
 
+use Illuminate\Support\Str;
+
 class PostController extends Controller
 {
     /**
@@ -38,7 +40,27 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $idUser = Auth::user()->id;
+
+        $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string'
+        ]);
+
+        $data = $request->all();
+
+        $newPost = new Post;
+        $newPost->title = $data['title'];
+        $newPost->body = $data['body'];
+        $newPost->user_id = $idUser;
+        $newPost->slug = Str::finish(Str::slug($newPost->title), rand(1, 1000000));
+
+        $saved = $newPost->save();
+        if (!$saved) {
+            return redirect()->back();
+        }  
+
+        return redirect()->route('admin.posts');
     }
 
     /**
