@@ -41,6 +41,7 @@
                     </td>
                     <td>
                         <a class="btn btn-info" href="{{route('admin.posts.show', $post->slug)}}">Show</a>
+                        <a class="btn btn-light" href="{{route('admin.posts.edit', $post->slug)}}">Update</a>
                     </td>
                 </tr>
             </tbody>
