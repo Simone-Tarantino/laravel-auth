@@ -40,7 +40,7 @@
                         {{$post->updated_at}}
                     </td>
                     <td>
-                        
+                        <a class="btn btn-info" href="{{route('admin.posts.show', $post->slug)}}">Show</a>
                     </td>
                 </tr>
             </tbody>
