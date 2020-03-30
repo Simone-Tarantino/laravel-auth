@@ -42,6 +42,11 @@
                     <td>
                         <a class="btn btn-info" href="{{route('admin.posts.show', $post->slug)}}">Show</a>
                         <a class="btn btn-light" href="{{route('admin.posts.edit', $post->slug)}}">Update</a>
+                        <form action="{{route('admin.posts.destroy', $post)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-danger" type="submit">Delete</button>  
+                        </form>
                     </td>
                 </tr>
             </tbody>
