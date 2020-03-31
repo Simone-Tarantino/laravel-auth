@@ -27,6 +27,6 @@ class CommentController extends Controller
             return redirect()->back();        
         }
 
-        return redirect()->route('posts.show', $newComment->post->slug);
+        return redirect()->route('show', $newComment->post->slug);
     }
 }
