@@ -20,6 +20,8 @@ Route::get('/', function () {
 Route::get('guest/index', 'PostController@index')->name('index');
 Route::get('guest/show/{slug}', 'PostController@show')->name('show');
 
+Route::post('/comments/create', 'CommentController@store')->name('comments.store');
+
 Auth::routes();
 
 
