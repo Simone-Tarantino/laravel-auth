@@ -24,4 +24,10 @@ class Post extends Model
         return $this->hasMany('App\Comment');    
     }
 
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
+
+
 }

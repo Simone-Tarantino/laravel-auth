@@ -16,20 +16,31 @@
 
 <h3>Comments</h3>
 @forelse ($post->comments as $comment)
-    {{$comment->name}} <br>
-    {{$comment->email}} <br>
-    {{$comment->body}}
+<div class="card text-center">
+  <div class="card-header">
+    {{$comment->email}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{$comment->name}}</h5>
+    <p class="card-text">{{$comment->body}}</p>
+  </div>
+  <div class="card-footer text-muted">
+    {{$comment->created_at}}
+  </div>
+</div>
 @empty
     <p>No comments</p>
 @endforelse
 
-<div class="alert alert-danger">
+@if ($errors->any())
+    <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
     </div>
+@endif
 
 <form action="{{route('comments.store')}}" method="post">
     @csrf
