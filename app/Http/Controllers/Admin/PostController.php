@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Post;
+use App\Tag;
 
 use Illuminate\Support\Str;
 
@@ -29,7 +30,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $tags = Tag::all();
+
+        return view('admin.posts.create', compact('tags'));
     }
 
     /**
@@ -58,7 +61,12 @@ class PostController extends Controller
         $saved = $newPost->save();
         if (!$saved) {
             return redirect()->back();
-        }  
+        }
+
+        $tags = $data['tags'];
+        if(!empty($tags)) {
+            $newPost->tags()->attach($tags);
+        }
 
         return redirect()->route('admin.posts.show', $newPost->slug);
     }
@@ -84,7 +92,13 @@ class PostController extends Controller
     public function edit($slug)
     {
         $post = Post::where('slug', $slug)->first();
-        return view('admin.posts.edit', compact('post'));
+        $tags = Tag::all();
+
+        $data = [
+            'tags' => $tags,
+            'post' => $post
+        ];
+        return view('admin.posts.edit', $data);
     }
 
     /**
@@ -121,6 +135,12 @@ class PostController extends Controller
             return redirect()->back();
         }
 
+        $tags = $data['tags'];
+
+        if(!empty($tags)) {
+            $post->tags()->sync($tags);
+        }
+
         return redirect()->route('admin.posts.show', $post->slug);
         
     }
@@ -133,6 +153,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if(empty($post)) {
+            abort('404');
+        }
+
+        $post->tags()->detach();
         $post->delete();
         return redirect()->route('admin.posts.index');
     }

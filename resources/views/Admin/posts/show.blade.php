@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('content')
     <table class="table">
         <thead>
@@ -20,6 +21,9 @@
             </th>
             <th>
                 Updated At:
+            </th>
+            <th>
+                Tags:
             </th>
         </thead>
         <tbody>
@@ -43,7 +47,9 @@
                     {{$post->updated_at}}
                 </td>
                 <td>
-                    
+                    @foreach ($post->tags as $tag)
+                        {{$tag->name}}
+                    @endforeach
                 </td>
             </tr>
         </tbody>
