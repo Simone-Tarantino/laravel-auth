@@ -19,6 +19,9 @@
                 <th>
                     Updated At:
                 </th>
+                <th>
+                    Actions:
+                </th>
             </thead>
             <tbody>
                 <tr>
@@ -36,6 +39,9 @@
                     </td>
                     <td>
                         {{$post->updated_at}}
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-primary" href="{{route('show', $post->slug)}}">Show</a>
                     </td>
                 </tr>
             </tbody>
