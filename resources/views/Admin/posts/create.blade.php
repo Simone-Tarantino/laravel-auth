@@ -10,7 +10,7 @@
         </ul>
     </div>
 @endif
-    <form action="{{route('admin.posts.store')}}" method="POST">
+    <form action="{{route('admin.posts.store')}}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('POST')
         <input type="text" name="title" id="title" placeholder="Insert title">
@@ -19,6 +19,11 @@
         <span>{{$tag->name}}</span>
         <input type="checkbox" name="tags[]" value="{{$tag->id}}">
         @endforeach
+        <input type="file" name="img_path" accept="image/*">
+        <select name="published">
+            <option value="0">Unpublished</option>
+            <option value="1">Published</option>
+        </select>
         <button type="submit">Create</button>
     </form>
 @endsection

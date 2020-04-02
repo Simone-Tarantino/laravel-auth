@@ -49,17 +49,23 @@ class PostController extends Controller
 
         $request->validate([
             'title' => 'required|string',
-            'body' => 'required|string'
+            'body' => 'required|string',
+            'published' => 'required|boolean',
+            'img_path' => 'image'
         ]);
 
         $data = $request->all();
 
         $newPost = new Post;
+
+        $path = Storage::disk('public')->put('images', $data['img_path']);
+
         $newPost->title = $data['title'];
         $newPost->body = $data['body'];
         $newPost->user_id = $idUser;
         $newPost->slug = Str::finish(Str::slug($newPost->title), rand(1, 1000000));
-
+        $newPost->img_path = $path;
+        $newPost->published = $data['published'];
         $saved = $newPost->save();
         if (!$saved) {
             return redirect()->back();
@@ -162,7 +168,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if(empty($post)) {
+        if(empty($post) || $post->user_id != Auth::id()) {
             abort('404');
         }
 

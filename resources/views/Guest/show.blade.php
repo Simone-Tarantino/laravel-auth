@@ -8,6 +8,7 @@
     <div class="card-body">
         <h5 class="card-title">{{$post->title}}</h5>
         <p class="card-text">{{$post->body}}</p>
+        <img src="{{$post->img_path}}" alt="">
     </div>
     <div class="card-footer text-muted">
         Created At: {{$post->created_at}}, Updated At: {{$post->updated_at}}
