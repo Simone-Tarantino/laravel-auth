@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use App\Post;
 use App\Tag;
 
@@ -19,7 +20,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('user_id', Auth::id())->get();
+        // $posts = Post::where('user_id', Auth::id())->get();
+        $posts = Post::all();
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -92,13 +94,20 @@ class PostController extends Controller
     public function edit($slug)
     {
         $post = Post::where('slug', $slug)->first();
-        $tags = Tag::all();
+        
+        if ($post->user_id == Auth::id()) {
+            $tags = Tag::all();
+    
+            $data = [
+                'tags' => $tags,
+                'post' => $post
+            ];
+            
+            return view('admin.posts.edit', $data);
+        }
 
-        $data = [
-            'tags' => $tags,
-            'post' => $post
-        ];
-        return view('admin.posts.edit', $data);
+        abort('404');
+        
     }
 
     /**
